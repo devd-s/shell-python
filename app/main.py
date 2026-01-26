@@ -27,12 +27,12 @@ def main():
         if command == "exit":
             break
         elif tokens[0] == "type":
-            if tokens[1] not in builtins_cmds and path_exists(tokens[1]) is None:
-                print (f"{tokens[1]}: not found")
+            if tokens[1] in builtins_cmds:
+                print(f"{tokens[1]} is a shell builtin")
             elif path_exists(tokens[1]) is not None:
                 print(f"{tokens[1]} is {path_exists(tokens[1])}")
             else:
-                print(f"{tokens[1]} is a shell builtin")
+                print (f"{tokens[1]}: not found")
         elif tokens[0] == "echo":
             print(" ".join(tokens[1:]))
         else:
