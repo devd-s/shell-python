@@ -35,6 +35,8 @@ def main():
                 print (f"{tokens[1]}: not found")
         elif tokens[0] == "echo":
             print(" ".join(tokens[1:]))
+        elif path_exists(command.split(" ")[0]):
+            os.system(command)
         else:
             print (f"{command}: command not found")
        
