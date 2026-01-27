@@ -1,5 +1,6 @@
 import sys
 import os
+import shlex
 
 builtins_cmds = ["type", "echo", "exit"]
 
@@ -24,6 +25,8 @@ def main():
         pass
         command = input()
         tokens= command.split()
+#        multi_args = shlex.split(command)
+#        executable_cmnd = multi_args[0]
         if command == "exit":
             break
         elif tokens[0] == "type":
@@ -35,7 +38,7 @@ def main():
                 print (f"{tokens[1]}: not found")
         elif tokens[0] == "echo":
             print(" ".join(tokens[1:]))
-        elif path_exists(command.split(" ")[0]):
+        elif path_exists(shlex.split(command)[0]):
             os.system(command)
         else:
             print (f"{command}: command not found")
