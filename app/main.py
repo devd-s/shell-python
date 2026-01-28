@@ -24,7 +24,8 @@ def main():
         sys.stdout.write("$ ")
         pass
         command = input()
-        tokens= command.split()
+#        tokens= command.split()
+        tokens= shlex.split(command, posix=True)
 #        multi_args = shlex.split(command)
 #        executable_cmnd = multi_args[0]
         if command == "exit":
