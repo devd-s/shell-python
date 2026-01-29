@@ -30,7 +30,7 @@ def main():
 #        executable_cmnd = multi_args[0]
         if command == "exit":
             break
-        elif ">" in command:
+        elif ">" in command or "<" in command:
             os.system(command)
         elif tokens[0] == "type":
             if tokens[1] in builtins_cmds:
