@@ -30,6 +30,8 @@ def main():
 #        executable_cmnd = multi_args[0]
         if command == "exit":
             break
+        elif ">" in command:
+            os.system(command)
         elif tokens[0] == "type":
             if tokens[1] in builtins_cmds:
                 print(f"{tokens[1]} is a shell builtin")
@@ -43,8 +45,6 @@ def main():
             os.system(command)
         else:
             print (f"{command}: command not found")
-       
-
 
 if __name__ == "__main__":
     main()
