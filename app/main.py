@@ -2,12 +2,22 @@ import sys
 import os
 import shlex
 import readline
+from pathlib import Path
 
 builtins_cmds = ["type", "echo", "exit"]
 
+def find_executables_in_path(prefix: str):
+    return [
+        file.name
+        for directory in os.environ.get["PATH"].split(os.pathsep)
+        if directory
+        for file in Path(directory).glob(f"{prefix}*")
+        if file.is_file() and os.access(file,os.X_OK)
+    ]
+
 def bash_complete(text: str, state: int) -> str:
     options_available_builtin = [ val + " " for val in builtins_cmds if val.startswith(text)]
-    options_available_executable = [ val + " " for val in path_exists(text)]
+    options_available_executable = [ val + " " for val in find_executables_in_path(text)]
     all_matches=  options_available_executable + options_available_builtin
     return all_matches[state] if state < len(all_matches) else None
     #return options_available[state] if state < len(options_available) else None
