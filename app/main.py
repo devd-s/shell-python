@@ -6,7 +6,7 @@ import readline
 builtins_cmds = ["type", "echo", "exit"]
 
 def bash_complete(text: str, state: int) -> str:
-    options_available = [ val + " " for val in builtins_cmds if val.start.with(text)]
+    options_available = [ val + " " for val in builtins_cmds if val.startswith(text)]
     return options_available[state] if state < len(options_available) else None
 
 def path_exists(cmd):
