@@ -6,10 +6,10 @@ from pathlib import Path
 
 builtins_cmds = ["type", "echo", "exit"]
 
-def find_executables_in_path(prefix: str):
+def find_executables_in_path(prefix: str) -> list[str]:
     return [
         file.name
-        for directory in os.environ.get["PATH"].split(os.pathsep)
+        for directory in os.environ.get("PATH").split(os.pathsep)
         if directory
         for file in Path(directory).glob(f"{prefix}*")
         if file.is_file() and os.access(file,os.X_OK)
