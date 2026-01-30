@@ -25,12 +25,12 @@ def path_exists(cmd):
     return None
 
 def main():
+    readline.parse_and_bind("tab: complete")
+    readline.set_completer(bash_complete)
     while True:
         sys.stdout.write("$ ")
         pass
         command = input()
-        readline.parse_and_bind("tab: complete")
-        readline.set_completer(bash_complete)
         tokens= shlex.split(command, posix=True)
 #        multi_args = shlex.split(command)
 #        executable_cmnd = multi_args[0]
