@@ -7,8 +7,7 @@ builtins_cmds = ["type", "echo", "exit"]
 
 def bash_complete(text: str, state: int) -> str:
     options_available_builtin = [ val + " " for val in builtins_cmds if val.startswith(text)]
-    options_available_executable = te: int) -> str:
-    options_available_builtin = [ val + " " for val in path_exists(val)]
+    options_available_executable = [ val + " " for val in path_exists(text)]
     all_matches=  options_available_executable + options_available_builtin
     return all_matches[state] if state < len(all_matches) else None
     #return options_available[state] if state < len(options_available) else None
