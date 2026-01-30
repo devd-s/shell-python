@@ -1,8 +1,13 @@
 import sys
 import os
 import shlex
+import readline
 
 builtins_cmds = ["type", "echo", "exit"]
+
+def bash_complete(text: str, state: int) -> str:
+    options_available = [ val + " " for val in builtins_cmds if val.start.with(text)]
+    return options_available[state] if state < len(options_available) else None
 
 def path_exists(cmd):
     env_path = os.environ.get("PATH", "")
@@ -24,7 +29,8 @@ def main():
         sys.stdout.write("$ ")
         pass
         command = input()
-#        tokens= command.split()
+        readline.parse_and_bind("tab: complete")
+        readline.set_completer(bash_complete)
         tokens= shlex.split(command, posix=True)
 #        multi_args = shlex.split(command)
 #        executable_cmnd = multi_args[0]
