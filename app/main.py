@@ -72,6 +72,7 @@ def path_exists(cmd):
     return None
 
 def main():
+    global first_tab_pressed, last_completion_text
     readline.parse_and_bind("tab: complete")
     readline.set_completer(bash_complete)
     readline.set_completion_display_matches_hook(display_matches)
@@ -79,6 +80,9 @@ def main():
         sys.stdout.write("$ ")
         pass
         command = input()
+        # Reset completion state after command execution
+        first_tab_pressed = False
+        last_completion_text = None
         tokens= shlex.split(command, posix=True)
 #        multi_args = shlex.split(command)
 #        executable_cmnd = multi_args[0]
