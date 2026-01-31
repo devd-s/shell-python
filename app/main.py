@@ -32,7 +32,6 @@ def display_matches(substitution, matches, longest_match_length):
 
     sys.stdout.write("$ " + readline.get_line_buffer())
     sys.stdout.flush()
-    first_tab_pressed = False
 
 def find_executables_in_path(prefix: str) -> list[str]:
     matches = [
