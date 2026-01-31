@@ -9,7 +9,7 @@ builtins_cmds = ["type", "echo", "exit"]
 first_tab_pressed = False
 last_completion_text = None
 
-def display_matches(substitution, matches, last_completion_text):
+def display_matches(substitution, matches, longest_match_length):
     global first_tab_pressed
 
     if not first_tab_pressed:
@@ -29,7 +29,7 @@ def display_matches(substitution, matches, last_completion_text):
         sys.stdout.write("  ".join(sorted_matches) + "\n")
     else:
         sys.stdout.write('\n')
-        
+
     sys.stdout.write("$ " + readline.get_line_buffer())
     sys.stdout.flush()
     first_tab_pressed = False
