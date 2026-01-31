@@ -72,10 +72,10 @@ def main():
         sys.stdout.write("$ ")
         pass
         command = input()
-        tokens= shlex.split(command, posix=True)
         global first_tab_pressed, last_completion_text
         first_tab_pressed = False
         last_completion_text = None
+        tokens= shlex.split(command, posix=True)
 #        multi_args = shlex.split(command)
 #        executable_cmnd = multi_args[0]
         if command == "exit":
