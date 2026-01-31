@@ -6,32 +6,37 @@ from pathlib import Path
 
 builtins_cmds = ["type", "echo", "exit"]
 
-first_tab_pressed = False
-last_completion_text = None
+# first_tab_pressed = False
+# last_completion_text = None
 
-def display_matches(substitution, matches, longest_match_length):
-    global first_tab_pressed
+def display_match(substitution, matches, longest_match_length):
+    print()
+    print ("  ".join(matches))
+    print (f"$ {readline.get_line_buffer()}", end='', flush=True)
 
-    if not first_tab_pressed:
-        sys.stdout.write('\x07')
-        sys.stdout.flush()
-        first_tab_pressed = True
-        return 
+# def display_matches(substitution, matches, longest_match_length):
+#     global first_tab_pressed
+
+#     if not first_tab_pressed:
+#         sys.stdout.write('\x07')
+#         sys.stdout.flush()
+#         first_tab_pressed = True
+
     
-        # second tab
-#        print ()
+#         # second tab
+# #        print ()
 
-    matches = [m.strip() for m in matches if m and m.strip()]
-    sorted_matches = sorted(set(matches))
+#     matches = [m.strip() for m in matches if m and m.strip()]
+#     sorted_matches = sorted(set(matches))
 
-    sys.stdout.write('\n')
-    if sorted_matches:
-        sys.stdout.write("  ".join(sorted_matches) + "\n")
-    else:
-        sys.stdout.write('\n')
+#     sys.stdout.write('\n')
+#     if sorted_matches:
+#         sys.stdout.write("  ".join(sorted_matches) + "\n")
+#     else:
+#         sys.stdout.write('\n')
 
-    sys.stdout.write("$ " + readline.get_line_buffer())
-    sys.stdout.flush()
+#     sys.stdout.write("$ " + readline.get_line_buffer())
+#     sys.stdout.flush()
 
 def find_executables_in_path(prefix: str) -> list[str]:
     matches = [
