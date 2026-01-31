@@ -37,6 +37,12 @@ def find_executables_in_path(prefix: str) -> list[str]:
     ]
 
 def bash_complete(text: str, state: int) -> str:
+    global first_tab_pressed, last_completion_text
+    if state == 0:
+        if text != last_completion_text:
+            last_completion_text = text
+            first_tab_pressed = False
+    
     options_available_builtin = [ val + " " for val in builtins_cmds if val.startswith(text)]
     options_available_executable = [ val + " " for val in find_executables_in_path(text)]
     all_matches=  options_available_executable + options_available_builtin
