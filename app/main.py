@@ -49,11 +49,11 @@ def find_executables_in_path(prefix: str) -> list[str]:
     return sorted(set(matches))
 
 def bash_complete(text: str, state: int) -> str:
-    global first_tab_pressed, last_completion_text
-    if state == 0:
-        if text != last_completion_text:
-            last_completion_text = text
-            first_tab_pressed = False
+    # global first_tab_pressed, last_completion_text
+    # if state == 0:
+    #     if text != last_completion_text:
+    #         last_completion_text = text
+    #         first_tab_pressed = False
     
     options_available_builtin = [ val + " " for val in builtins_cmds if val.startswith(text)]
     options_available_executable = [ val + " " for val in find_executables_in_path(text)]
@@ -77,17 +77,17 @@ def path_exists(cmd):
     return None
 
 def main():
-    global first_tab_pressed, last_completion_text
+    # global first_tab_pressed, last_completion_text
     readline.parse_and_bind("tab: complete")
     readline.set_completer(bash_complete)
-    readline.set_completion_display_matches_hook(display_matches)
+    readline.set_completion_display_matches_hook(display_match)
     while True:
         sys.stdout.write("$ ")
         pass
         command = input()
         # Reset completion state after command execution
-        first_tab_pressed = False
-        last_completion_text = None
+        # first_tab_pressed = False
+        # last_completion_text = None
         tokens= shlex.split(command, posix=True)
 #        multi_args = shlex.split(command)
 #        executable_cmnd = multi_args[0]
