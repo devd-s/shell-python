@@ -6,6 +6,27 @@ from pathlib import Path
 
 builtins_cmds = ["type", "echo", "exit"]
 
+first_tab_pressed = False
+last_completion_text = None
+
+def display_matches(substitution, mataches, last_completion_text):
+    global first_tab_pressed
+
+    if not first_tab_pressed:
+        sys.stdout.write('\x07')
+        sys.stdout.flush()
+        first_tab_pressed = True
+    else:
+        # second tab
+        print ()
+
+        matches = [ m.rstrip() for m in matches ]
+        sorted_matches = sorted(matches)
+
+        print ("  ".join(sorted_matches))
+        sys.stdout.wirte("$ "+ readline.get_line_buffer())
+        sys.stdout.flush()
+
 def find_executables_in_path(prefix: str) -> list[str]:
     return [
         file.name
@@ -40,6 +61,7 @@ def path_exists(cmd):
 def main():
     readline.parse_and_bind("tab: complete")
     readline.set_completer(bash_complete)
+    readline.set_completion_display_matches_hook(display_matches)
     while True:
         sys.stdout.write("$ ")
         pass
