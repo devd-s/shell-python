@@ -24,7 +24,7 @@ def display_matches(substitution, mataches, last_completion_text):
         sorted_matches = sorted(matches)
 
         print ("  ".join(sorted_matches))
-        sys.stdout.wirte("$ "+ readline.get_line_buffer())
+        sys.stdout.wirte("$ " + readline.get_line_buffer())
         sys.stdout.flush()
 
 def find_executables_in_path(prefix: str) -> list[str]:
