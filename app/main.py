@@ -16,25 +16,31 @@ def display_matches(substitution, mataches, last_completion_text):
         sys.stdout.write('\x07')
         sys.stdout.flush()
         first_tab_pressed = True
-    else:
+        return 
+    
         # second tab
-        print ()
+#        print ()
 
-        matches = [ m.rstrip() for m in matches ]
-        sorted_matches = sorted(matches)
+        matches = [m.strip() for m in matches if m and m.strip()]
+        sorted_matches = sorted(set(matches))
 
-        print ("  ".join(sorted_matches))
+        sys.stdout.write('\n')
+        if sorted_matches:
+            sys.stdout.write("  ".join(sorted_matches) + "\n")
+        else:
+            sys.stdout.write('\n')
         sys.stdout.write("$ " + readline.get_line_buffer())
         sys.stdout.flush()
 
 def find_executables_in_path(prefix: str) -> list[str]:
-    return [
+    matches = [
         file.name
         for directory in os.environ.get("PATH").split(os.pathsep)
         if directory
         for file in Path(directory).glob(f"{prefix}*")
         if file.is_file() and os.access(file,os.X_OK)
     ]
+    return sorted(set(matches))
 
 def bash_complete(text: str, state: int) -> str:
     global first_tab_pressed, last_completion_text
@@ -72,9 +78,6 @@ def main():
         sys.stdout.write("$ ")
         pass
         command = input()
-        global first_tab_pressed, last_completion_text
-        first_tab_pressed = False
-        last_completion_text = None
         tokens= shlex.split(command, posix=True)
 #        multi_args = shlex.split(command)
 #        executable_cmnd = multi_args[0]
