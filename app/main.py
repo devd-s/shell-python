@@ -67,6 +67,9 @@ def main():
         pass
         command = input()
         tokens= shlex.split(command, posix=True)
+        global first_tab_pressed, last_completion_text
+        first_tab_pressed = False
+        last_completion_text = None
 #        multi_args = shlex.split(command)
 #        executable_cmnd = multi_args[0]
         if command == "exit":
