@@ -9,7 +9,7 @@ builtins_cmds = ["type", "echo", "exit"]
 first_tab_pressed = False
 last_completion_text = None
 
-def display_matches(substitution, mataches, last_completion_text):
+def display_matches(substitution, matches, last_completion_text):
     global first_tab_pressed
 
     if not first_tab_pressed:
