@@ -12,7 +12,7 @@ builtins_cmds = ["type", "echo", "exit"]
 def display_match(substitution, matches, longest_match_length):
     print()
     print ("  ".join(matches))
-    print (f"$ {readline.get_line_buffer()}", end='', flush=True)
+    print (f"$ {readline.get_line_buffer()}", end="", flush=True)
 
 # def display_matches(substitution, matches, longest_match_length):
 #     global first_tab_pressed
