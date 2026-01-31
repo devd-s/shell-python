@@ -11,32 +11,8 @@ builtins_cmds = ["type", "echo", "exit"]
 
 def display_match(substitution, matches, longest_match_length):
     print()
-    print ("  ".join(matches))
+    print (" ".join(matches))
     print (f"$ {readline.get_line_buffer()}", end="", flush=True)
-
-# def display_matches(substitution, matches, longest_match_length):
-#     global first_tab_pressed
-
-#     if not first_tab_pressed:
-#         sys.stdout.write('\x07')
-#         sys.stdout.flush()
-#         first_tab_pressed = True
-
-    
-#         # second tab
-# #        print ()
-
-#     matches = [m.strip() for m in matches if m and m.strip()]
-#     sorted_matches = sorted(set(matches))
-
-#     sys.stdout.write('\n')
-#     if sorted_matches:
-#         sys.stdout.write("  ".join(sorted_matches) + "\n")
-#     else:
-#         sys.stdout.write('\n')
-
-#     sys.stdout.write("$ " + readline.get_line_buffer())
-#     sys.stdout.flush()
 
 def find_executables_in_path(prefix: str) -> list[str]:
     matches = [
@@ -49,12 +25,6 @@ def find_executables_in_path(prefix: str) -> list[str]:
     return sorted(set(matches))
 
 def bash_complete(text: str, state: int) -> str:
-    # global first_tab_pressed, last_completion_text
-    # if state == 0:
-    #     if text != last_completion_text:
-    #         last_completion_text = text
-    #         first_tab_pressed = False
-    
     options_available_builtin = [ val + " " for val in builtins_cmds if val.startswith(text)]
     options_available_executable = [ val + " " for val in find_executables_in_path(text)]
     all_matches=  options_available_executable + options_available_builtin
@@ -85,9 +55,6 @@ def main():
         sys.stdout.write("$ ")
         pass
         command = input()
-        # Reset completion state after command execution
-        # first_tab_pressed = False
-        # last_completion_text = None
         tokens= shlex.split(command, posix=True)
 #        multi_args = shlex.split(command)
 #        executable_cmnd = multi_args[0]
