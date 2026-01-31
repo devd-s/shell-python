@@ -21,16 +21,18 @@ def display_matches(substitution, matches, last_completion_text):
         # second tab
 #        print ()
 
-        matches = [m.strip() for m in matches if m and m.strip()]
-        sorted_matches = sorted(set(matches))
+    matches = [m.strip() for m in matches if m and m.strip()]
+    sorted_matches = sorted(set(matches))
 
+    sys.stdout.write('\n')
+    if sorted_matches:
+        sys.stdout.write("  ".join(sorted_matches) + "\n")
+    else:
         sys.stdout.write('\n')
-        if sorted_matches:
-            sys.stdout.write("  ".join(sorted_matches) + "\n")
-        else:
-            sys.stdout.write('\n')
-        sys.stdout.write("$ " + readline.get_line_buffer())
-        sys.stdout.flush()
+        
+    sys.stdout.write("$ " + readline.get_line_buffer())
+    sys.stdout.flush()
+    first_tab_pressed = False
 
 def find_executables_in_path(prefix: str) -> list[str]:
     matches = [
