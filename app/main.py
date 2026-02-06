@@ -17,7 +17,7 @@ def execute_builtins(cmd_tokens, stdin_data=None):
             return ""
         target_cmd = cmd_tokens[1]
         if target_cmd in builtins_cmds:
-            return (f"{cmd_tokens[1]} is a shell builtin")
+            return (f"{cmd_tokens[1]} is a shell builtin\n")
         elif path_exists(cmd_tokens[1]) is not None:
             return (f"{cmd_tokens[1]} is {path_exists(cmd_tokens[1])}")
         else:
