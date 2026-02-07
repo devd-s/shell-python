@@ -5,8 +5,6 @@ import readline
 import subprocess
 from pathlib import Path
 
-from click import command
-
 builtins_cmds = ["type", "echo", "exit"]
 
 def execute_builtins(cmd_tokens, stdin_data=None):
