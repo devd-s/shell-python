@@ -217,7 +217,11 @@ def main():
             print (os.getcwd())
         elif tokens[0] == "cd":
             try:
-                os.chdir(tokens[1])
+                if tokens[1] == "~":
+                    target= os.getenv("HOME")
+                    os.chdir(target)
+                else:
+                    os.chdir(tokens[1])
             except FileNotFoundError:
                 print (f"cd: {tokens[1]}: No such file or directory")
         elif ">" in command:
