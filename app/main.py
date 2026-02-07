@@ -137,9 +137,9 @@ def main():
     readline.set_completion_display_matches_hook(display_match)
     readline.set_auto_history(False)
     while True:
-        sys.stdout.write("$ ")
-        pass
-        command = input()
+#        sys.stdout.write("$ ")
+#        pass
+        command = input("$ ")
         readline.add_history(command)
         add_to_history(command)
         tokens= shlex.split(command, posix=True)
