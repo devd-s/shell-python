@@ -17,7 +17,7 @@ def add_to_history(command: str):
 def get_history():
     """Print the command histroy"""
     for ind, cmd in enumerate(History, start=1):
-        print (f"{i:5d}  {cmd}")
+        print (f"{ind:5d}  {cmd}")
 
 
 def execute_builtins(cmd_tokens, stdin_data=None):
