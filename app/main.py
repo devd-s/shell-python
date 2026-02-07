@@ -7,6 +7,19 @@ from pathlib import Path
 
 builtins_cmds = ["type", "echo", "exit", "history"]
 
+History = []
+
+def add_to_history(command: str):
+    """Add a command to history"""
+    if command.strip():
+        History.append(command)
+
+def get_history():
+    """Print the command histroy"""
+    for ind, cmd in enumerate(History, start=1):
+        print (f"{i:5d}  {cmd}")
+
+
 def execute_builtins(cmd_tokens, stdin_data=None):
     if cmd_tokens[0] == "echo":
         joiner = " ".join(cmd_tokens[1:])
@@ -123,6 +136,7 @@ def main():
         sys.stdout.write("$ ")
         pass
         command = input()
+        add_to_history(command)
         tokens= shlex.split(command, posix=True)
 #        multi_args = shlex.split(command)
 #        executable_cmnd = multi_args[0]
@@ -132,6 +146,9 @@ def main():
             execute_pipe(command)
         elif ">" in command:
             os.system(command)
+        elif tokens[0] == "history":
+            get_history()
+            continue
         elif tokens[0] == "type":
             if tokens[1] in builtins_cmds:
                 print(f"{tokens[1]} is a shell builtin")
