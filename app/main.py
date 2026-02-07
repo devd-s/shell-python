@@ -5,7 +5,7 @@ import readline
 import subprocess
 from pathlib import Path
 
-builtins_cmds = ["type", "echo", "exit"]
+builtins_cmds = ["type", "echo", "exit", "history"]
 
 def execute_builtins(cmd_tokens, stdin_data=None):
     if cmd_tokens[0] == "echo":
