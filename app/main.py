@@ -14,9 +14,12 @@ def add_to_history(command: str):
     if command.strip():
         History.append(command)
 
-def get_history():
+def get_history(n: int | None = None):
     """Print the command histroy"""
-    for ind, cmd in enumerate(History, start=1):
+    total =len(History)
+    start_ind = 0 if n is None else max(0, total-n)
+
+    for ind, cmd in enumerate(History[start_ind:], start=start_ind+1):
         print (f"{ind:5d}  {cmd}")
 
 
@@ -147,7 +150,12 @@ def main():
         elif ">" in command:
             os.system(command)
         elif tokens[0] == "history":
-            get_history()
+            if len(tokens) == 1:
+                get_history()
+            else:
+                n = int(tokens[1])
+                if n >= 1:
+                    get_history(n)
             continue
         elif tokens[0] == "type":
             if tokens[1] in builtins_cmds:
