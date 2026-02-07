@@ -169,8 +169,8 @@ def main():
                 continue
             if len(tokens) == 2:
                 n = int(tokens[1])
-                if n >= 1:
-                    get_history(n)
+                get_history(n)
+                continue
             get_history()
             continue
         elif tokens[0] == "type":
