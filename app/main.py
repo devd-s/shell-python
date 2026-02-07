@@ -5,7 +5,7 @@ import readline
 import subprocess
 from pathlib import Path
 
-builtins_cmds = ["type", "echo", "exit", "history"]
+builtins_cmds = ["type", "echo", "exit", "history", "pwd"]
 
 History = []
 
@@ -213,6 +213,8 @@ def main():
             break
         elif "|" in command:
             execute_pipe(command)
+        elif tokens[0] == "pwd":
+            print (os.getcwd())
         elif ">" in command:
             os.system(command)
         elif tokens[0] == "history":
