@@ -9,6 +9,15 @@ builtins_cmds = ["type", "echo", "exit", "history"]
 
 History = []
 
+def history_write_file(path: str):
+    """Write histroy to a file"""
+    try:
+        with open(path, "w", encoding="utf-8") as f:
+            for cmd in History:
+                f.write(cmd + "\n")
+    except OSError:
+        print (f"histroy : {path}: could not write to file")    
+
 def history_read_file(path: str):
     """Read histroy via file"""
     try:
@@ -165,6 +174,9 @@ def main():
         elif tokens[0] == "history":
             if len(tokens) == 3 and tokens[1] == "-r":
                 history_read_file(tokens[2])
+                continue
+            if len(tokens) == 3 and tokens[1] == "-w":
+                history_write_file(tokens[2])
                 continue
             if len(tokens) == 2:
                 n = int(tokens[1])
