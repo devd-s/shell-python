@@ -9,6 +9,21 @@ builtins_cmds = ["type", "echo", "exit", "history"]
 
 History = []
 
+def history_read_file(path: str):
+    """Read histroy via file"""
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            for line in f:
+                cmd = line.strip("\n")
+                if not cmd.strip():
+                    continue
+                History.append(cmd)
+                readline.add_histroy(cmd)
+    except FileNotFoundError:
+        print (f"history: {path} : no such file")
+    except OSError:
+        print (f"history: {path} : could not read file")
+
 def add_to_history(command: str):
     """Add a command to history"""
     if command.strip():
@@ -137,14 +152,11 @@ def main():
     readline.set_completion_display_matches_hook(display_match)
     readline.set_auto_history(False)
     while True:
-#        sys.stdout.write("$ ")
-#        pass
         command = input("$ ")
         readline.add_history(command)
         add_to_history(command)
+        readline.add_history(command)
         tokens= shlex.split(command, posix=True)
-#        multi_args = shlex.split(command)
-#        executable_cmnd = multi_args[0]
         if command == "exit":
             break
         elif "|" in command:
@@ -152,12 +164,14 @@ def main():
         elif ">" in command:
             os.system(command)
         elif tokens[0] == "history":
-            if len(tokens) == 1:
-                get_history()
+            if len(tokens) == 3 and tokens[1] == "-r":
+                history_read_file(tokens[2])
+                continue
             else:
                 n = int(tokens[1])
                 if n >= 1:
                     get_history(n)
+            get_history()
             continue
         elif tokens[0] == "type":
             if tokens[1] in builtins_cmds:
