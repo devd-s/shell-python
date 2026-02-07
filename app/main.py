@@ -18,7 +18,7 @@ def history_read_file(path: str):
                 if not cmd.strip():
                     continue
                 History.append(cmd)
-                readline.add_histroy(cmd)
+                readline.add_history(cmd)
     except FileNotFoundError:
         print (f"history: {path} : no such file")
     except OSError:
