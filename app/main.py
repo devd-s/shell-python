@@ -14,7 +14,7 @@ last_append_index = 0
 def read_histfile(): 
     """ To load histroy from hist file"""
     global last_append_index
-    path = os.environ.get("HISTFILE", path)
+    path = os.environ.get("HISTFILE")
     if not path:
         return 
     
@@ -27,9 +27,6 @@ def read_histfile():
             readline.add_history(cmd)
     
     last_append_index = len(History)
-
-
-    
 
 
 def history_append_file(path: str):
