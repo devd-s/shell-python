@@ -129,7 +129,7 @@ def main():
         if command == "exit":
             break
         elif "|" in command:
-            execute_pipeline(command)
+            execute_pipe(command)
         elif ">" in command:
             os.system(command)
         elif tokens[0] == "type":
