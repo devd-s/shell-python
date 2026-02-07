@@ -215,6 +215,11 @@ def main():
             execute_pipe(command)
         elif tokens[0] == "pwd":
             print (os.getcwd())
+        elif tokens[0] == "cd":
+            try:
+                os.chdir(tokens[1])
+            except FileNotFoundError:
+                print ("cd: {tokens[1]}: No such file or directory")
         elif ">" in command:
             os.system(command)
         elif tokens[0] == "history":
