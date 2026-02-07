@@ -209,7 +209,8 @@ def main():
         add_to_history(command)
         tokens= shlex.split(command, posix=True)
         if command == "exit":
-            hist_exit()
+            #hist_exit()
+            read_histfile()
             break
         elif "|" in command:
             execute_pipe(command)
