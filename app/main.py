@@ -167,7 +167,7 @@ def main():
             if len(tokens) == 3 and tokens[1] == "-r":
                 history_read_file(tokens[2])
                 continue
-            else:
+            if len(tokens) == 2:
                 n = int(tokens[1])
                 if n >= 1:
                     get_history(n)
