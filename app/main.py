@@ -56,7 +56,8 @@ def history_write_file(path: str):
     try:
         with open(path, "w", encoding="utf-8") as f:
             for cmd in History:
-                f.write(cmd + "\n")
+                if cmd.strip():
+                    f.write(cmd + "\n")
     except OSError:
         print (f"histroy : {path}: could not write to file")    
 
@@ -209,6 +210,9 @@ def main():
         add_to_history(command)
         tokens= shlex.split(command, posix=True)
         if command == "exit":
+            histfile = os.environ.get("HISTFILE")
+            if histfile:
+                history_write_file(histfile)
             #hist_exit()
             read_histfile()
             break
