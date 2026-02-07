@@ -155,7 +155,6 @@ def main():
         command = input("$ ")
         readline.add_history(command)
         add_to_history(command)
-        readline.add_history(command)
         tokens= shlex.split(command, posix=True)
         if command == "exit":
             break
