@@ -11,6 +11,27 @@ History = []
 
 last_append_index = 0
 
+def read_histfile(): 
+    """ To load histroy from hist file"""
+    global last_append_index
+    path = os.environ.get("HISTFILE", path)
+    if not path:
+        return 
+    
+    with open(path, "r", encoding="utf-8") as f:
+        for line in f:
+            cmd = line.strip("\n")
+            if not cmd.strip():
+                continue
+            History.append(cmd)
+            readline.add_history(cmd)
+    
+    last_append_index = len(History)
+
+
+    
+
+
 def history_append_file(path: str):
     """Append histroy to a file"""
     global last_append_index
@@ -174,6 +195,7 @@ def main():
     readline.set_completer(bash_complete)
     readline.set_completion_display_matches_hook(display_match)
     readline.set_auto_history(False)
+    read_histfile()
     while True:
         command = input("$ ")
         readline.add_history(command)
