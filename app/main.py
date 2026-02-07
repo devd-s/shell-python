@@ -5,7 +5,7 @@ import readline
 import subprocess
 from pathlib import Path
 
-builtins_cmds = ["type", "echo", "exit", "history", "pwd"]
+builtins_cmds = {"type", "echo", "exit", "history", "pwd"}
 
 History = []
 
@@ -200,7 +200,6 @@ def main():
         add_to_history(command)
         tokens= shlex.split(command, posix=True)
         if tokens and tokens[0] == "exit":
-        #if command == "exit":
             histfile = os.environ.get("HISTFILE")
             if histfile:
                 history_write_file(histfile)
