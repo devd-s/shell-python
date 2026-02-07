@@ -9,6 +9,20 @@ builtins_cmds = ["type", "echo", "exit", "history"]
 
 History = []
 
+last_append_index = 0
+
+def history_append_file(path: str):
+    """Append histroy to a file"""
+    global last_append_index
+    try:
+        with open(path, "a", encoding="utf-8") as f:
+            for cmd in History[last_append_index:]:
+                if cmd.strip():
+                    f.write(cmd + "\n")
+        last_append_index = len(History)
+    except OSError:
+        print (f"histroy : {path}: could not write to file")   
+
 def history_write_file(path: str):
     """Write histroy to a file"""
     try:
@@ -177,6 +191,9 @@ def main():
                 continue
             if len(tokens) == 3 and tokens[1] == "-w":
                 history_write_file(tokens[2])
+                continue
+            if len(tokens) == 3 and tokens[1] == "-a":
+                history_append_file(tokens[2])
                 continue
             if len(tokens) == 2:
                 n = int(tokens[1])
