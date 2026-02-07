@@ -68,7 +68,7 @@ def execute_pipe(command: str) -> bool:
             prev_in.close()
 
         procs.append(ex)
-        prev_in = p.stdout
+        prev_in = ex.stdout
 
     for p in procs:
         p.wait()
