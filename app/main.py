@@ -199,7 +199,8 @@ def main():
         readline.add_history(command)
         add_to_history(command)
         tokens= shlex.split(command, posix=True)
-        if command == "exit":
+        if tokens and tokens[0] == "exit":
+        #if command == "exit":
             histfile = os.environ.get("HISTFILE")
             if histfile:
                 history_write_file(histfile)
