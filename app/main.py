@@ -11,16 +11,6 @@ History = []
 
 last_append_index = 0
 
-# def hist_exit():
-#     """Save histfile on exit"""
-#     path = os.environ.get("HISTFILE")
-#     if not path:
-#         return 
-    
-#     with open(path, "w", encoding="utf-8") as f:
-#         for cmd in History:
-#             f.write(cmd + "\n")
-
 def read_histfile(): 
     """ To load histroy from hist file"""
     global last_append_index
