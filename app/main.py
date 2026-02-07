@@ -5,6 +5,8 @@ import readline
 import subprocess
 from pathlib import Path
 
+from click import command
+
 builtins_cmds = ["type", "echo", "exit"]
 
 def execute_builtins(cmd_tokens, stdin_data=None):
@@ -19,44 +21,63 @@ def execute_builtins(cmd_tokens, stdin_data=None):
         if target_cmd in builtins_cmds:
             return (f"{cmd_tokens[1]} is a shell builtin\n")
         elif path_exists(cmd_tokens[1]) is not None:
-            return (f"{cmd_tokens[1]} is {path_exists(cmd_tokens[1])}")
+            return (f"{cmd_tokens[1]} is {path_exists(cmd_tokens[1])}\n")
         else:
-            return (f"{cmd_tokens[1]}: not found")
+            return (f"{cmd_tokens[1]}: not found\n")
     return ""
 
+def execute_pipe(command: str) -> bool:
+    parts = [p.strip() for p in command.split("|")]
 
-def execute_pipeline(command):
-    pipe_segment = command.split("|")
-
-    if len(pipe_segment) == 1:
+    if len(parts) <= 1:
         return False
-    stdin_data = None
 
-    for segment in pipe_segment:
-        segment = segment.strip()
-        tokens = shlex.split(segment, posix=True)
+    stages = [shlex.split(p,posix=True) for p in parts if p.strip()]
 
-        if not tokens:
-            continue
+    if not stages:
+        return True
 
-        if tokens[0] in builtins_cmds:
-            output = execute_builtins(tokens, stdin_data)
-            stdin_data = output
-        else:
-            try:
-                if stdin_data is not None:
-                    result = subprocess.run(tokens,input=stdin_data,capture_output=True,text=True)
-                else:
-                    result = subprocess.run(tokens,capture_output=True,text=True)
+    procs: list[subprocess.Poopen] = []
+    prev_in = None
 
-                stdin_data = result.stdout
-            except FileNotFoundError:
-                print(f"{tokens[0]}: command not found")
+    for i, cmds in enumerate(stages):
+        is_last = (i == len(stages) - 1 )
+
+        if cmds[0] in builtins_cmds:
+            stdin_data = prev_in.read() if prev_in is not None else None
+            if prev_in is not None:
+                prev_in.close()
+                prev_in = None
+
+            output = execute_builtins(cmds,stdin_data)
+
+            if is_last:
+                sys.stdout.write(output)
+                sys.stdout.flush()
+
+                for p in procs:
+                    p.wait()
                 return True
             
-    if stdin_data is not None:
-        print(stdin_data, end="")
+            r_fd,w_fd = os.pipe()
+            os.write(w_fd, output.encode())
+            os.close(w_fd)
+            prev_in = os.fdopen(r_fd,"r")
+            continue
+        ex = subprocess.Popen(cmds, stdin=prev_in, stdout=None if is_last else subprocess.PIPE, text=True)
+
+        if prev_in is not None:
+            prev_in.close()
+
+        procs.append(ex)
+        prev_in = p.stdout
+
+    for p in procs:
+        p.wait()
     
+    if prev_in is not None:
+        prev_in.close()
+
     return True
 
 def display_match(substitution, matches, longest_match_length):
