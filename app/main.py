@@ -166,11 +166,30 @@ def find_executables_in_path(prefix: str) -> list[str]:
     ]
     return sorted(set(matches))
 
+def find_files_in_current_dir(prefix: str) -> list[str]:
+    try:
+        match =[
+            file.name + " "
+            for file in Path(".").glob(f"{prefix}*")
+            if file.is_file()
+    ]
+        return sorted(match)
+    except Exception:
+        return []
+
+
 def bash_complete(text: str, state: int) -> str:
-    options_available_builtin = [ val + " " for val in builtins_cmds if val.startswith(text)]
-    options_available_executable = [ val + " " for val in find_executables_in_path(text)]
-    all_matches=  options_available_executable + options_available_builtin
-    return all_matches[state] if state < len(all_matches) else None
+    line = readline.get_line_buffer()
+    before_cursor = line[:readline.get_endidx()]
+    tokens = before_cursor.split()
+    if len(tokens) <= 1 and not before_cursor.endswith(" "):
+        options_available_builtin = [ val + " " for val in builtins_cmds if val.startswith(text)]
+        options_available_executable = [ val + " " for val in find_executables_in_path(text)]
+        all_matches=  options_available_executable + options_available_builtin
+        return all_matches[state] if state < len(all_matches) else None
+    else:
+        matches = find_files_in_current_dir(text)
+        return matches[state] if state < len(matches) else None
 
 def path_exists(cmd):
     env_path = os.environ.get("PATH", "")
