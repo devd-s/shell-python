@@ -217,7 +217,10 @@ def bash_complete(text: str, state: int) -> str:
     else:
         full_prefix = tokens[-1] if tokens else text
         matches = find_files_in_current_dir(full_prefix)
-        return matches[state] if state < len(matches) else None
+        already_typed = full_prefix[:-len(text)] if text else full_prefix
+        stripped = [m[len(already_typed):] for m in matches]
+        #return matches[state] if state < len(matches) else None
+        return stripped[state] if state < len(stripped) else None
 
 def path_exists(cmd):
     env_path = os.environ.get("PATH", "")
