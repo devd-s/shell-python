@@ -215,7 +215,10 @@ def bash_complete(text: str, state: int) -> str:
         all_matches=  options_available_executable + options_available_builtin
         return all_matches[state] if state < len(all_matches) else None
     else:
-        full_prefix = tokens[-1] if tokens else text
+        if before_cursor.endswith(' '):
+            full_prefix = ""
+        else:
+            full_prefix = tokens[-1] if tokens else text
         matches = find_files_in_current_dir(full_prefix)
         already_typed = full_prefix[:-len(text)] if text else full_prefix
         stripped = [m[len(already_typed):] for m in matches]
