@@ -240,6 +240,7 @@ def main():
     readline.set_completer(bash_complete)
     readline.set_completion_display_matches_hook(display_match)
     readline.set_auto_history(False)
+    readline.set_completer_delims(' \t\n')
     read_histfile()
     while True:
         command = input("$ ")
