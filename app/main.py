@@ -180,11 +180,14 @@ def find_executables_in_path(prefix: str) -> list[str]:
             if not item.name.startswith(file_prefix):
                 continue
             completion = dir_part + item.name
-        #for item in search_dir.glob(pattern):
-            if item.is_file():
-                matches.append(dir_part + " ")
-            elif item.is_dir():
-                matches.append(dir_part + "/")
+            if item.is_dir():
+                matches.append(completion + "/")
+            elif item.is_file():
+                matches.append(completion + " ")
+            # if item.is_file():
+            #     matches.append(dir_part + " ")
+            # elif item.is_dir():
+            #     matches.append(dir_part + "/")
         # matches = [
         #     file.name
         #     for directory in os.environ.get("PATH").split(os.pathsep)
