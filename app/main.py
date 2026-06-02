@@ -221,7 +221,7 @@ def bash_complete(text: str, state: int) -> str:
         return all_matches[state] if state < len(all_matches) else None
     else:
         full_prefix = tokens[-1] if tokens else text
-        matches = find_files_in_current_dir(text)
+        matches = find_files_in_current_dir(full_prefix)
         return matches[state] if state < len(matches) else None
 
 def path_exists(cmd):
