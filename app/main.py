@@ -184,10 +184,7 @@ def find_executables_in_path(prefix: str) -> list[str]:
                 matches.append(completion + "/")
             elif item.is_file():
                 matches.append(completion + " ")
-            # if item.is_file():
-            #     matches.append(dir_part + " ")
-            # elif item.is_dir():
-            #     matches.append(dir_part + "/")
+
         # matches = [
         #     file.name
         #     for directory in os.environ.get("PATH").split(os.pathsep)
@@ -223,6 +220,7 @@ def bash_complete(text: str, state: int) -> str:
         all_matches=  options_available_executable + options_available_builtin
         return all_matches[state] if state < len(all_matches) else None
     else:
+        full_prefix = tokens[-1] if tokens else text
         matches = find_files_in_current_dir(text)
         return matches[state] if state < len(matches) else None
 
