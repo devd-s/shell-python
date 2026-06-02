@@ -157,8 +157,20 @@ def display_match(substitution, matches, longest_match_length):
     print (f"$ {readline.get_line_buffer()}", end="", flush=True)
 
 def find_executables_in_path(prefix: str) -> list[str]:
-    try:
+        
+        matches = [
+            file.name
+            for directory in os.environ.get("PATH").split(os.pathsep)
+            if directory
+            for file in Path(directory).glob(f"{prefix}*")
+            if file.is_file() and os.access(file,os.X_OK)
+        ]
+        return sorted(set(matches))
+    
 
+
+def find_files_in_current_dir(prefix: str) -> list[str]:
+    try:
         if "/" in prefix:
             last_slash = prefix.rfind("/")
             dir_part = prefix[:last_slash +1]
@@ -171,10 +183,8 @@ def find_executables_in_path(prefix: str) -> list[str]:
 
         if not search_dir.exists() or not search_dir.is_dir():
             return []
-
+        
         matches = []
-
-        #pattern = f"{file_prefix}*" if file_prefix else "*"
 
         for item in search_dir.iterdir():
             if not item.name.startswith(file_prefix):
@@ -185,27 +195,12 @@ def find_executables_in_path(prefix: str) -> list[str]:
             elif item.is_file():
                 matches.append(completion + " ")
 
-        # matches = [
-        #     file.name
-        #     for directory in os.environ.get("PATH").split(os.pathsep)
-        #     if directory
-        #     for file in Path(directory).glob(f"{prefix}*")
-        #     if file.is_file() and os.access(file,os.X_OK)
-        # ]
+    #     match =[
+    #         file.name + " "
+    #         for file in Path(".").glob(f"{prefix}*")
+    #         if file.is_file()
+    # ]
         return sorted(set(matches))
-    
-    except Exception:
-        return []
-
-
-def find_files_in_current_dir(prefix: str) -> list[str]:
-    try:
-        match =[
-            file.name + " "
-            for file in Path(".").glob(f"{prefix}*")
-            if file.is_file()
-    ]
-        return sorted(match)
     except Exception:
         return []
 
