@@ -174,13 +174,17 @@ def find_executables_in_path(prefix: str) -> list[str]:
 
         matches = []
 
-        pattern = f"{file_prefix}*" if file_prefix else "*"
+        #pattern = f"{file_prefix}*" if file_prefix else "*"
 
-        for item in search_dir.glob(pattern):
+        for item in search_dir.iterdir():
+            if not item.name.startswith(file_prefix):
+                continue
+            completion = dir_part + item.name
+        #for item in search_dir.glob(pattern):
             if item.is_file():
-                matches.append(dir_part + item.name + " ")
+                matches.append(dir_part + " ")
             elif item.is_dir():
-                matches.append(dir_part + item.name + "/")
+                matches.append(dir_part + "/")
         # matches = [
         #     file.name
         #     for directory in os.environ.get("PATH").split(os.pathsep)
@@ -240,7 +244,7 @@ def main():
     readline.set_completer(bash_complete)
     readline.set_completion_display_matches_hook(display_match)
     readline.set_auto_history(False)
-    readline.set_completer_delims(' \t\n')
+    # readline.set_completer_delims(' \t\n')
     read_histfile()
     while True:
         command = input("$ ")
